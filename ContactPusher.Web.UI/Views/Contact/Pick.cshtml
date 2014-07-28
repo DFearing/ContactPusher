@@ -1,0 +1,75 @@
+﻿@model ContactPusher.Web.UI.Models.ContactPickModel
+
+@{
+	ViewBag.Title = "Picker";
+}
+
+<div class="muted" id="content">
+	<h3>Choose a Contact to Share</h3>
+	<p>Pick the contact that you want to share with the world! To make things easier, we've filtered the results. To see all your contacts, remove the filter.</p>
+	<hr />
+	<div class="seach-form text-center">
+		Showing matches for: <input type="text" class="search-query" id="filter" placeholder="use me!" value="@Model.Filter"><div class="btn btn-medium btn-success" style="margin-left: 5px;">Filter</div>
+	</div>
+	<hr />
+	<div id="loading">
+		<h4 class="text-center" style="color: black;"><img src="@Url.Content("~/Content/images/loading.gif")" style="margin-right: 10px;" />Loading Contacts...</h4>
+	</div>
+	<div id="error" style="display: none;">
+		<h4 class="text-center">Sorry, we're not able to load your contact list.</h4>
+	</div>
+	<div id="empty" style="display: none;">
+		<h4>Your contact list is empty!</h4>
+		<p>Add a new contact in <a href="http://www.contacts.google.com">Google Contacts</a> to begin. When you are done, reload this page. We'll wait.</p>
+	</div>
+	<ul id="list" />
+</div>
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$.ajax({
+				datatype: "json",
+				url: '@Url.Action("GetContacts", "Contact")',
+				success: function (data, b, c) {
+					var url = '@Url.Action("Share", "Contact")';
+					var list = $("#list");
+
+					if (data.length == 0) {
+						$("#empty").show();
+					} else {
+						$(data).each(function (index, item) {
+							list.append(Mustache.render("<li><a href='" + url + "/{{Id}}'>{{Name}}</a>{{#Email}} ({{Email}}){{/Email}}{{#Phone}} - {{Phone}} {{/Phone}}</li>", item));
+						});
+					}
+
+					filter.call($('#filter'));
+					$('#content').removeClass('muted');
+					$("#loading").hide();
+				},
+				error: function () {
+					$('#content').removeClass('muted');
+					$("#loading").hide();
+					$("#error").show();
+				}
+			});
+
+			$('#filter')
+					.keyup(function () { filter.call($(this)); })
+					.blur(function () { filter.call($(this)); })
+
+			function filter() {
+				var input = $(this);
+
+				$('ul li').each(function (index, item) {
+					if ($(item).html().indexOf(input.val()) > -1) {
+						$(item).show();
+					} else {
+						$(item).hide();
+					}
+				});
+			}
+		});
+	</script>
+}

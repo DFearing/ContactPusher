@@ -1,0 +1,15 @@
+﻿@model ContactPusher.Web.UI.Models.ContactDownloadModel
+
+@{
+	ViewBag.Title = "Picker";
+}
+
+<h3 class="text-center">Really? You want to download a vCard of @Model.Contact.Name's information?</h3>
+<hr />
+<div class="text-center">
+	We weren't really expecting that...so, uh. <strong>Sorry</strong>. We'll build this feature soon. You can still import into Google Contacts, so, why don't you do that?!
+</div>
+<hr />
+<div class="text-center">
+	@Html.ActionLink("Import to Google Contacts", "Import", "Contact", new { id = Model.Id }, new { @class="btn btn-large btn-success" })
+</div>

@@ -1,0 +1,12 @@
+﻿@model ContactPusher.Web.UI.Models.ContactShareSuccessModel
+
+@{
+	Layout = "~/Views/Shared/_ModalLayout.cshtml";
+	ViewBag.Title = "Picker";
+}
+
+<div class="text-center">
+	<h4>My Contact's Unique Link:</h4>
+	<input id="url" class="input-medium" type="text" value="@Model.ShortUrl">
+</div>
+<p class="text-center">We've taken the liberty of running the it through <a href="http://goo.gl/">Google's Url Shortener</a> to give you a short & easy link to share. Copy the link and send it to your friends and family. Close this window to see exactly what they will see when they receive the link.</p>

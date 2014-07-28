@@ -1,0 +1,77 @@
+﻿@model ContactPusher.Web.UI.Models.ContactRetrieveModel
+
+@{
+	ViewBag.Title = "Picker";
+}
+
+<h3 class="text-center">@Model.Contact.Name has shared their contact information with you! <br />How would you like to save it?</h3>
+<hr />
+<div class="text-center">
+	@Html.ActionLink("Import to Google Contacts", "Import", "Contact", new { id = Model.Id }, new { @class="btn btn-large btn-success" })
+	<div style="margin-left: 10px; display: inline-block"><h5>OR</h5></div>
+	@Html.ActionLink("Download as vCard", "Download", "Contact", new { id = Model.Id }, new { @class="btn btn-small btn-link" })
+</div>
+<hr />
+
+<div class="row-fluid marketing">
+	<div class="span6">
+		<h4>Import to Google Contacts</h4>
+		<p>Authorize ContactPusher to access your Google Contacts account and we'll create a contact for @Model.Contact.Name. We'll even push updates to you if @Model.Contact.Name's information changes.</p>
+	</div>
+	<div class="span6">
+		<h4>Download as vCard</h4>
+		<p>Ok gramps, if you don't want to embrace the cloud and automatic updates. Non-Octogenarians should really import into Google Contacts, unless...you hate convenience.</p>
+	</div>
+</div>
+<hr>
+<div class="row-fluid marketing" style="text-align: center;">
+	<h3>Frequently Asked Questions</h3>
+</div>
+<hr>
+<div class="row-fluid marketing">
+	<div class="span6">
+		<h4>What information do you store from my Google Contacts Account?</h4>
+		<p>We store the bare minimum of information required to complete the task. When you authorize ContactPusher to connect to your Google Contacts account, we save your email address and your unique identifier provided to us by Google.</p>
+		<h4>Are you going to spam me?</h4>
+		<p>Nope. We strive to never send unsolicited email. We may send you important notifications about the service, but most likely you'll never hear from us unless you reach out.</p>
+	</div>
+	<div class="span6">
+		<h4>Where does the contact information go?</h4>
+		<p>We'll create a new contact and put it into a ContactPusher group so it's easy to find.</p>
+		<h4>How do I revoke access?</h4>
+		<p><a href="http://support.google.com/accounts/bin/answer.py?hl=en&answer=41236">Google</a> has you covered on this one, but if you revoke access from ContactPusher, you won't be able to send or receive updates from any shared contacts.</p>
+	</div>
+</div>
+
+@if (TempData["ShortUrl"] != null)
+{
+	<div id="modalContent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-remote="@Url.Action("ShareSuccess", "Contact", new { id = Model.Id, url = TempData["ShortUrl"] })">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>Ready to Share!</h3>
+		</div>
+		<div class="modal-body">
+			<p>Loading...</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
+}
+
+@section scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			@if (TempData["ShortUrl"] != null)
+			{
+				<text>
+				$('#modalContent').modal();
+				$('#modalContent').on('shown', function () {
+					$("#url").select();
+				});
+				</text>				
+			}
+		});
+	</script>
+}

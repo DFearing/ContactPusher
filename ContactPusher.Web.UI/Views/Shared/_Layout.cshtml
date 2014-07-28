@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>ContactPusher - TechnoSushi Software</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="TechnoSushi Software">
+	<link rel="shortcut icon" href="@Url.Content("~/Content/img/favicon.png")"/>
+	@Styles.Render("~/bundles/master.css")
+</head>
+<body>
+	<div class="container-narrow">
+		<div class="masthead">
+			<ul class="nav nav-pills pull-right">
+				<li><a href="mailto:support@technosushi.com">Contact</a></li>
+			</ul>
+			<h3>@Html.ActionLink("ContactPusher", "Index", "Home") <sup class="muted">beta</sup></h3>
+		</div>
+		<hr>
+		@RenderBody()
+		<hr>
+		<div class="footer">
+			<p>&copy; <a href="http://www.technosushi.com">TechnoSushi Software</a> @DateTime.Now.Year</p>
+		</div>
+	</div>
+	@Scripts.Render("~/bundles/master.js")
+	@RenderSection("scripts", required: false)
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-38349875-2', 'technosushi.com');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
